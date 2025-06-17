@@ -15,9 +15,6 @@ on:
           - "DEV"
           - "QA"
           - "PROD"
-  pull_request:
-    branches:
-      - Master   
   
 jobs:
   dev_dml_changes:
