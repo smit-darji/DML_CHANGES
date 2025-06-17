@@ -1,6 +1,7 @@
 --liquibase formatted sql
 --changeset vivek.vadadoriya@invitationhomes.com:EDCOR_834_added_resolution_type_filter.sql
 
+
 create or replace view VW_SPRINT_VELOCITY(
 	PROJECT_KEY,
     PROJECT_NAME,

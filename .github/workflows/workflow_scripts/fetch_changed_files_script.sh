@@ -9,7 +9,7 @@ env="$5"
 
 
 # Retrieve the latest merge commits
-latest_commits=$(git log origin/main --merges -n "$log_count" --pretty=format:%H)
+latest_commits=$(git log origin/Master --merges -n "$log_count" --pretty=format:%H)
 
 # Check if any merge commits were found
 if [ -z "$latest_commits" ]; then

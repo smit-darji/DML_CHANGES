@@ -1,6 +1,7 @@
 --liquibase formatted sql
 --changeset vivek.vadadoriya@invitationhomes.com:0751_KANBAN_V1.sql
 
+
 CREATE OR REPLACE VIEW VW_KANBAN(
 PROJECT_KEY
 , PROJECT_NAME
