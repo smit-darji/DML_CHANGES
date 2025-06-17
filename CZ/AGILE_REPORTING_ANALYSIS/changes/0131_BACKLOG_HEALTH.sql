@@ -1,7 +1,6 @@
 --liquibase formatted sql
 --changeset manideep.madha@invitationhomes.com:EDCOR_835_update_backlog_health
 
-
 CREATE OR REPLACE VIEW VW_BACKLOG_HEALTH(
 	PROJECT_KEY,
 	PROJECT_NAME,

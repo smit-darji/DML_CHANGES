@@ -2,9 +2,6 @@
 
 --changeset vivek.vadadoriya@invitationhomes.com:0262_AGILE_RCZ_OBJECTS.sql
 
-
-
-
 -- RCZ Tables
 
 create or replace TABLE JIRA_BOARD (

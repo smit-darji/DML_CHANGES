@@ -2,9 +2,6 @@
 
 --changeset vivek.vadadoriya@invitationhomes.com:0262_AGILE_RCZ_OBJECTS_GRANTS.sql
 
-
-
-
 -- RCZ Tables
 
 GRANT SELECT ON JIRA_BOARD TO ROLE ANALYST;

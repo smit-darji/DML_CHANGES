@@ -1,7 +1,6 @@
 --liquibase formatted sql
 --changeset manideep.madha@invitationhomes.com:EDCOR_835_updated_work_type_empty.sql
 
-
 CREATE OR REPLACE VIEW VW_SPRINT_TARGET_AND_CHURN(
 	PROJECT_KEY,
 	PROJECT_NAME,

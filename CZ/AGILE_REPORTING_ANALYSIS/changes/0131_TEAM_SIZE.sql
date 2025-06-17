@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset vivek.vadadoriya@invitationhomes.com:0131_TEAM_SIZE1.sql
-
+]
 CREATE OR REPLACE view VW_TEAM_SIZE(
 	PROJECT_KEY,
 	PROJECT_NAME,
