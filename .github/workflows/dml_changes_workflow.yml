@@ -17,7 +17,7 @@ on:
           - "PROD"
   pull_request:
     branches:
-      - main   
+      - Master   
   
 jobs:
   dev_dml_changes:
