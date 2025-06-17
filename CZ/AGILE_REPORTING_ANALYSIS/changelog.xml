@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <preConditions>
+      <sqlCheck expectedResult="${envId}_CZ.AGILE_REPORTING_ANALYSIS">
+    SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
+    </sqlCheck>
+  </preConditions>
+   <!-- <include file="changes/0131_BACKLOG_HEALTH.sql"/> -->
+   <include file="changes/0131_KANBAN.sql"/>  
+   <!-- <include file="changes/0131_TARGET_AND_CHURN.sql"/> -->
+   <include file="changes/0131_TEAM_SIZE.sql"/>
+   <include file="changes/0131_VELOCITY.sql"/>
+   <include file="changes/0131_KANBAN_STATUS.sql"/> 
+   <include file="changes/0288_AGILE_ANALYSIS_DDL_V3.sql"/>
+
+</databaseChangeLog>

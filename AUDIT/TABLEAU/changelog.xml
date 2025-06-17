@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <preConditions>
+  </preConditions>
+  <include file="changes/0604_ATLAN_META_DATA_DDL.sql"/>
+  <include file="changes/1091_HTTP_REQUESTS_DATA_DDL.sql"/>
+</databaseChangeLog>
