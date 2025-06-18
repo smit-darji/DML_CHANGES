@@ -1,30 +1,32 @@
 import snowflake.connector
 import sys
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
-def get_connection(user, account, warehouse, private_key_path, private_key_password):
-    """Connect to Snowflake using private key auth."""
-    try:
-        with open(private_key_path, "rb") as key_file:
-            private_key = key_file.read()
+def get_connection():
+    """
+    Establishes and returns a Snowflake database connection using environment variables.
+    """
+    user = os.getenv("SNOWFLAKE_USERNAME")
+    password = os.getenv("SNOWFLAKE_PASSWORD")
+    account = "LKGVJUZ-WS14116"
+    warehouse = os.getenv("SNOWFLAKE_WAREHOUSE")
+    private_key_file = os.getenv("SNOWFLAKE_PRIVATE_KEY_FILE")
+    private_file_password = os.getenv("SNOWFLAKE_PRIVATE_KEY_PASSWORD")
 
-        connection = snowflake.connector.connect(
-            user=user,
-            account=account,
-            warehouse=warehouse,
-            private_key=private_key,
-            private_key_password=private_key_password
-        )
-
-        logging.info("✅ Connected to Snowflake.")
-        return connection
-    except Exception as e:
-        logging.error(f"❌ Connection failed: {e}")
-        sys.exit(1)
+    return snowflake.connector.connect(
+        user=user,
+        authenticator="SNOWFLAKE_JWT",
+        private_key_file=private_key_file,
+        private_key_file_pwd=private_file_password,
+        account=account,
+        warehouse=warehouse,
+        role="SYSADMIN",
+    )
 
 
 def create_student_table(conn):
@@ -49,18 +51,3 @@ def create_student_table(conn):
         conn.close()
         logging.info("🔒 Connection closed.")
 
-
-def main():
-    if len(sys.argv) != 7:
-        logging.error("Usage: python a.py <ENV> <USER> <PASSWORD> <PRIVATE_KEY_PATH> <PRIVATE_KEY_PASSWORD> <WAREHOUSE>")
-        sys.exit(1)
-
-    _, env, user, password, private_key_path, private_key_password, warehouse = sys.argv
-    account = "LKGVJUZ-WS14116"  # Replace with your Snowflake account identifier
-
-    conn = get_connection(user, account, warehouse, private_key_path, private_key_password)
-    create_student_table(conn)
-
-
-if __name__ == "__main__":
-    main()
