@@ -32,10 +32,9 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_PRIVATE_KEY_PASSWORD: ${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}
         run: |
-          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}"
           ls
           pwd
-          cat sbnowflake_key.p8
           
-          python a.py "DEV" "${{ secrets.DEV_SNOWFLAKE_USERNAME }}" "LKGVJUZ-WS14116" snowflake_key.p8 "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          python a.py "DEV" "${{ secrets.DEV_SNOWFLAKE_USERNAME }}" "LKGVJUZ-WS14116" snowflake_rsa_key.p8 "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
 
