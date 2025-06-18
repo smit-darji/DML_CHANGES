@@ -16,13 +16,11 @@
     </properties>
 
     <modules>
-      <!-- <module>SECURITY/SNF_MANAGEMENT</module> -->
+      
       <module>RZ/ACCOUNTING_ANALYTICS</module>
       <module>RZ/AGILE_REPORTING</module>
-      
     </modules>
-
-    <build>
+      <build>
         <outputDirectory>${project.basedir}</outputDirectory>
         <testOutputDirectory>${project.basedir}</testOutputDirectory>
         <pluginManagement>
