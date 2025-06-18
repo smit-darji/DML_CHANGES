@@ -9,7 +9,7 @@ def get_connection():
         user=os.getenv("SNOWFLAKE_USERNAME"),
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
         warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
-        role="SYSADMIN",
+        role="ACCOUNTADMIN",
         authenticator="SNOWFLAKE_JWT",
         private_key_file=os.getenv("SNOWFLAKE_PRIVATE_KEY_FILE"),
         private_key_password=os.getenv("SNOWFLAKE_PRIVATE_KEY_PASSWORD")
