@@ -2,7 +2,7 @@ name: Dev - Liquibase deployments
 on: 
   pull_request: 
     branches: 
-      - main
+      - Master
   workflow_dispatch:
     inputs:
       environment:
