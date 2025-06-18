@@ -114,7 +114,14 @@ jobs:
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
           $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
+          ls
+          pwd
+          echo "Creating private key file from secret..."
           echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          echo "========================================================="
+          ls
+          pwd
+          echo "========================================================="
           echo "Private key file created."
           # Ensure the private key file is readable
           cat snowflake_key.p8
