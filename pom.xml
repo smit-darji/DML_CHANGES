@@ -72,7 +72,7 @@
               </property>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8</snowflake.urlBase>
            </properties>
       </profile>
 
@@ -85,7 +85,7 @@
               </property>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8</snowflake.urlBase>
            </properties>
       </profile>
 
@@ -98,7 +98,7 @@
               </property>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8</snowflake.urlBase>
            </properties>
       </profile>
 
@@ -108,7 +108,7 @@
              <activeByDefault>true</activeByDefault>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8</snowflake.urlBase>
            </properties>
        </profile>
     </profiles>
