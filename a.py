@@ -51,7 +51,7 @@ try:
 
     # Create table
     create_table_sql = """
-    CREATE OR REPLACE TABLE example_table (
+    CREATE OR REPLACE TABLE example_table1 (
         id INT AUTOINCREMENT,
         name STRING,
         created_at TIMESTAMP
