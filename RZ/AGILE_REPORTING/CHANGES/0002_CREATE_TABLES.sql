@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset yourname:0010-create-agile-reporting-table710
+--changeset yourname:0010-create-agile-reporting-table712
 
 CREATE TABLE IF NOT EXISTS AGILE_REPORTING.TASKS (
     ID             NUMBER       PRIMARY KEY,
