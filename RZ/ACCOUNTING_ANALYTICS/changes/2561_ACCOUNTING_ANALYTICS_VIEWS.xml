@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet author="mark.mcgarity@invitationhomes.com" id="2561-ACCOUNTING-ANALYTICS-VIEWS
+  ">
+    <sql>
+
+
+create TABLE if not exists ACCOUNTING_PERIOD (
+	START_DATE TIMESTAMP_NTZ(9),
+	END_DATE TIMESTAMP_NTZ(9),
+	ACCOUNTING_PERIOD DATE
+);
+
+create TABLE if not exists ACCOUNTING_HA (
+	MARKET VARCHAR(16777216),
+	OPERATINGPORTFOLIO VARCHAR(16777216),
+	PORTFOLIODIRECTOR VARCHAR(16777216),
+	PROPERTY VARCHAR(16777216),
+	UNIT VARCHAR(16777216),
+	ADDRESS VARCHAR(16777216),
+	CITY VARCHAR(16777216),
+	STATE VARCHAR(16777216),
+	ZIPCODE NUMBER(38,0),
+	OWNERENTITY VARCHAR(16777216),
+	TENANTID VARCHAR(16777216),
+	TENANTNAME VARCHAR(16777216),
+	STATUS VARCHAR(16777216),
+	MOVEINDATE TIMESTAMP_NTZ(9),
+	MOVEOUTDATE TIMESTAMP_NTZ(9),
+	LEASETYPE VARCHAR(16777216),
+	MARKETRENT FLOAT,
+	TENANTRENT FLOAT,
+	SUBSIDYRENT FLOAT,
+	TOTALLEASEDRENT FLOAT,
+	TAXABLE VARCHAR(16777216),
+	SUBSIDYHOLDFORFLAGGED VARCHAR(16777216),
+	PHANONHAP VARCHAR(16777216),
+	ONNOTIFICATIONSHEET VARCHAR(16777216)
+);
+
+create masking policy if not exists name_mask as (val string) returns string ->
+  case
+    when current_role() in ('SYSADMIN') then val
+    else concat(substr(val, 0, 2), '******')
+  end; 
+
+
+create or replace view VW_RECEIPT_DETAIL_REPORT(
+	CONTROL,
+	BATCH,
+	PERIOD,
+	DATE,
+	DATE_YEAR,
+	DATE_MONTH,
+	DATE_DAY,
+	ACCOUNTING_PERIOD,
+	PERSONNAME MASKING POLICY NAME_MASK,
+	PERSONCODE,
+	PERSONSTATUS,
+	PROPERTY,
+	PROPERTYCODE,
+	MARKET,
+	OP,
+	DEPOSITNUM,
+	CASHACCT,
+	AMOUNT,
+	REFERENCE,
+	CHECKNUM,
+	NOTES,
+	MODULECREATEDBY,
+	CREATEDBY,
+	CREATEDDATE,
+	MODIFIEDBY,
+	MODIFIEDDATE
+) as
+
+Select  
+	'R-' || Right(tr.hMy,7) As Control, 
+	RIGHT(tr.hParent2,7) As Batch,
+	tr.uPostDate As Period, 
+	tr.sDateOccurred As Date, 
+    YEAR(tr.sDateOccurred) As Date_Year, 
+    MONTH(tr.sDateOccurred) As Date_Month, 
+    DAY(tr.sDateOccurred) As Date_Day, 
+    acct.Accounting_Period AS Accounting_Period,
+    t.SFIRSTNAME || ' ' || t.SLASTNAME AS PersonName, 
+    RTRIM(LTRIM(r.ucode)) As PersonCode, 
+    ts.Status AS PersonStatus,
+    p.SADDR1  || ', ' || p.SCITY || ', ' || p.SSTATE || ' ' || p.SZIPCODE AS Property,
+    pa.SCODE as PropertyCode,
+	pa.Market As Market, 
+	pa.OperatingPortfolio As OP, 
+    IFNULL(RTRIM(LTRIM(trdep.UREF)),'') As DepositNum,
+	RTRIM (acOff.SCODE) As CashAcct, 
+	SUM(d.sAmount) As Amount, 
+	tr.uRef As Reference, 
+	tr.sUserDefined1 As CheckNum, 
+	tr.sNotes As Notes, 
+	tr.sModuleCreatedBy As ModuleCreatedBy, 
+	IFNULL(UsrC.uName,'') As CreatedBy, 
+	tr.SDATECREATED As CreatedDate, 
+	IFNULL(UsrM.uName,'') As ModifiedBy, 
+	tr.SDATEMODIFIED As ModifiedDate
+FROM YARDI_DBO.TRANS Tr 
+LEFT JOIN YARDI_DBO.DETAIL d on tr.hMy=d.hInvorRec
+LEFT JOIN YARDI_DBO.ACCT ac on d.hAcct=ac.hMy 
+LEFT JOIN YARDI_DBO.ACCT acOff on tr.HOFFSETACCT =acOff.HMY 
+LEFT JOIN YARDI_DBO.PROPERTY p on d.hProp = p.hMy 
+LEFT JOIN YARDI_DBO.PROPATTRIBUTES pa on p.hmy = pa.hmy 
+LEFT JOIN YARDI_DBO.PERSON r on tr.hPerson=r.hMy 
+LEFT JOIN YARDI_DBO.TENANT t ON r.hmy = t.HMYPERSON
+LEFT JOIN YARDI_DBO.TENSTATUS ts ON t.ISTATUS = ts.istatus
+LEFT JOIN YARDI_DBO.PMUSER UsrC on UsrC.hMy = tr.HUSERCREATEDBY 
+LEFT JOIN YARDI_DBO.PMUSER UsrM on UsrM.hMy = tr.HUSERMODIFIEDBY 
+LEFT JOIN YARDI_DBO.TRANS trdep ON tr.HPARENT1 = trdep.hmy
+LEFT JOIN ACCOUNTING_ANALYTICS.ACCOUNTING_PERIOD acct ON tr.sDateOccurred BETWEEN acct.START_DATE AND acct.END_DATE
+WHERE 1=1 
+	AND p.hmy in (SELECT l2.hProperty FROM YARDI_DBO.LISTPROP2 l2 WHERE 1 = 1 AND l2.hPropList = (SELECT HMY FROM YARDI_DBO.PROPERTY WHERE 1 = 1 AND SCODE = 'ihownman'))
+    AND tr.iType = 6 
+    AND tr.sNotes LIKE '%:HAP%'
+    
+GROUP BY 
+    Control,
+	Batch, 
+    Period, 
+	Date, 
+    Date_Year, 
+    Date_Month, 
+    Date_Day, 
+    Accounting_Period,
+    PersonName,
+	PersonCode, 
+	PersonStatus, 
+    Property,
+    PropertyCode,
+	Market, 
+	OP,
+    DepositNum,
+	CashAcct, 
+	Reference, 
+	Notes, 
+	CheckNum, 
+	ModuleCreatedBy, 
+	CreatedBy, 
+	CreatedDate, 
+	ModifiedBy, 
+	ModifiedDate 
+order by 1;
+
+create or replace view VW_LEASE_CHG_REPORT(
+	MARKET,
+	PROPERTY_ID,
+	PROPERTY_ADDRESS,
+	RESIDENT_ID,
+	RESIDENT MASKING POLICY NAME_MASK,
+	RESIDENT_STATUS,
+	LEASETYPE,
+	CHARGE,
+	OWNER_ENTITY,
+	PHANONHAP,
+	FROM_DATE,
+	TO_DATE,
+	PREVIOUS_AMOUNT,
+	CURRENT_AMOUNT,
+	FUTURE_AMOUNT,
+	DIFFERENCE_PREVIOUS,
+	DIFFERENCE_FUTURE
+) as
+
+with previous_future_cte AS (
+  
+SELECT 
+t.SCODE, HCHARGECODE, HTENANT, DTFROM, DTTO,
+LAG(cr.destimated) OVER(PARTITION BY pa.SCODE, t.SCODE, c.sCode ORDER BY cr.dtFrom) AS Previous_Amount,
+cr.destimated AS Current_Amount,
+LEAD(cr.destimated) OVER(PARTITION BY pa.SCODE, t.SCODE, c.sCode ORDER BY cr.dtFrom) AS Future_Amount
+FROM YARDI_DBO.PROPERTY p 
+INNER JOIN YARDI_DBO.TENANT t ON p.hmy = t.hproperty
+INNER JOIN YARDI_DBO.TENSTATUS ts ON t.istatus = ts.istatus
+INNER JOIN YARDI_DBO.CAMRULE cr ON t.HMYPERSON = cr.htenant 
+INNER JOIN YARDI_DBO.CHARGTYP c ON cr.hChargeCode = c.hMy 
+INNER JOIN YARDI_DBO.PROPATTRIBUTES pa on p.hmy = pa.hmy     
+WHERE IFNULL(cr.dtTo,'12/31/2200') &gt; cr.dtFrom),
+
+current_rents_cte AS (
+  
+SELECT 
+pa.Market as Market,
+pa.SCODE as Property_ID,
+p.SADDR1  || ', ' || p.SCITY || ', ' || p.SSTATE || ' ' || p.SZIPCODE AS Property_Address,
+t.SCODE As Resident_ID,
+t.SFIRSTNAME || ' ' || t.SLASTNAME AS Resident, 
+ts.status AS Resident_Status, 
+ha.LEASETYPE AS LeaseType,
+c.sCode AS Charge,
+ha.OWNERENTITY AS Owner_Entity,
+ha.PHANONHAP AS PHANonHAP,
+CAST(DTFROM AS Date) AS From_Date, 
+CAST(DTTO AS Date) AS To_Date, 
+TRUNCATE(Previous_Amount, 2) AS Previous_Amount,
+TRUNCATE(Current_Amount, 2) AS Current_Amount,
+TRUNCATE(Future_Amount, 2) AS Future_Amount,
+TRUNCATE(Current_Amount-Previous_Amount, 2) AS Difference_Previous,
+TRUNCATE(Future_Amount-Current_Amount, 2) AS Difference_Future
+FROM YARDI_DBO.PROPERTY p 
+INNER JOIN YARDI_DBO.PROPATTRIBUTES pa on p.hmy = pa.hmy     
+INNER JOIN YARDI_DBO.TENANT t ON p.hmy = t.hproperty
+INNER JOIN YARDI_DBO.TENSTATUS ts ON t.istatus = ts.istatus
+LEFT JOIN ACCOUNTING_ANALYTICS.ACCOUNTING_HA ha ON t.SCODE = ha.TENANTID 
+    AND pa.SCODE = ha.PROPERTY
+INNER JOIN previous_future_cte prefut ON prefut.SCODE = t.SCODE 
+    AND CURRENT_DATE &gt; date_trunc('month', prefut.DTFROM) 
+    AND IFNULL(prefut.DTTO,'12/31/2200') &gt; CURRENT_DATE
+INNER JOIN YARDI_DBO.CHARGTYP c ON prefut.hChargeCode = c.hMy 
+WHERE 1=1
+    AND CURRENT_DATE between date_trunc('month', t.dtMoveIn) and IFNULL(t.dtMoveOut,'12/31/2200')
+	AND p.hMy in (SELECT l2.hProperty FROM YARDI_DBO.LISTPROP2 l2 WHERE 1 = 1 AND l2.iType=3 AND l2.hPropList = (SELECT HMY FROM YARDI_DBO.PROPERTY WHERE 1 = 1 AND SCODE = 'ihownman'))
+    	
+GROUP BY 
+pa.Market,
+Property_ID,
+Property_Address,
+Resident_ID,
+Resident, 
+Resident_Status, 
+LeaseType,
+Charge,
+Owner_Entity,
+PHANonHAP,
+From_Date,
+To_Date,
+Previous_Amount,
+Current_Amount,
+Future_Amount, 
+Difference_Previous, 
+Difference_Future
+ORDER BY Market, Property_ID, Resident_ID, Resident_Status, Charge, From_Date)
+
+SELECT *
+FROM current_rents_cte
+WHERE CURRENT_DATE &gt; From_Date
+    AND IFNULL(To_Date,'12/31/2200') &gt; CURRENT_DATE;
+
+
+	</sql>
+	
+    <rollback>
+      <sql>
+
+      </sql>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>

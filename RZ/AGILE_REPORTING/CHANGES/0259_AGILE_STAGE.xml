@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet author="vivek.vadadoriya@invitationhomes.com" id="0259_AGILE_STAGE">
+    <sql>
+CREATE OR REPLACE STAGE AGILE_STAGE
+STORAGE_INTEGRATION = ${envId}_SNF_AWS_SDLF_INTEGRATION
+URL = 's3://datalake-data-and-analytics-${extStgEnv}-invh/agile_reporting/';
+    </sql>
+    <rollback>
+      <sql>
+
+      </sql>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>

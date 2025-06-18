@@ -1,0 +1,13 @@
+--liquibase formatted sql
+
+--changeset vivek.vadadoriya@invitationhomes.com:0259_AGILE_FILE_FORMAT.sql
+
+CREATE OR REPLACE FILE FORMAT AGILE_JSON
+    TYPE = 'JSON'
+    COMPRESSION = 'AUTO' 
+    ENABLE_OCTAL = FALSE 
+    NULL_IF = ()
+    ALLOW_DUPLICATE = FALSE 
+    STRIP_OUTER_ARRAY = TRUE 
+    STRIP_NULL_VALUES = FALSE 
+    IGNORE_UTF8_ERRORS = FALSE;

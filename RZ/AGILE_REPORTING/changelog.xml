@@ -5,9 +5,13 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
   <preConditions>
-      <sqlCheck expectedResult="${envId}_DATA_SHARE.STARWOOD_SHARE">
+      <sqlCheck expectedResult="${envId}_RZ.AGILE_REPORTING">
     SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
     </sqlCheck>
   </preConditions>
-    <include file="changes/1908_STARWOOD_PROPERTY_ATTRIBUTES.sql"/>
+  <include file="CHANGES/0259_JIRA_RZ_DDL.sql"/>
+  <include file="CHANGES/0259_QUICKBASE_RZ_DDL.sql"/>
+  <include file="CHANGES/0259_AGILE_FILE_FORMAT.sql"/>
+  <include file="CHANGES/0259_AGILE_STAGE.xml"/>
+  <include file="CHANGES/0663_AGILE_JIRA_SPRINT_DETAILS_DDL.sql"/>
 </databaseChangeLog>

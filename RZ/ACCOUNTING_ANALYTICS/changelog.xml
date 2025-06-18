@@ -5,12 +5,11 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
   <preConditions>
-      <sqlCheck expectedResult="${envId}_RCZ.AGILE_REPORTING">
+      <sqlCheck expectedResult="${envId}_RZ.ACCOUNTING_ANALYTICS">
     SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
     </sqlCheck>
   </preConditions>
-  <include file="CHANGES/0262_AGILE_RCZ_OBJECTS.sql"/> 
-  <include file="CHANGES/0262_AGILE_RCZ_OBJECTS_GRANTS.sql"/>
-  <include file="CHANGES/0262_AGILE_RCZ_OBJECTS_DEVELOPER_GRANTS.sql"/>
-  <include file="CHANGES/0663_AGILE_RCZ_JIRA_SPRINT_DETAILS_DDL.sql"/>
+   <include file="changes/2561_ACCOUNTING_ANALYTICS_VIEWS.xml"/>
+   <include file="changes/4365_ACCOUNTING_PERIOD_DROP.xml"/>
+   <include file="changes/4365_RECEIPT_DETAIL_VIEW.xml"/>
 </databaseChangeLog>
