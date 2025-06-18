@@ -1,5 +1,6 @@
 import snowflake.connector
 import os
+
 # Snowflake connection parameters
 conn = snowflake.connector.connect(
     user='yogeshmakwana',
