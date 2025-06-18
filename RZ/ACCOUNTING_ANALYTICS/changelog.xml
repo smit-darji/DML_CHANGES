@@ -9,7 +9,7 @@
     SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
     </sqlCheck>
   </preConditions>
-   <include file="changes/2561_ACCOUNTING_ANALYTICS_VIEWS.xml"/>
-   <include file="changes/4365_ACCOUNTING_PERIOD_DROP.xml"/>
-   <include file="changes/4365_RECEIPT_DETAIL_VIEW.xml"/>
+    <include file="CHANGES/0000_CREATE_DATABASE.sql"/>
+    <include file="CHANGES/0001_CREATE_SCHEMA.sql"/>
+    <include file="CHANGES/0002_CREATE_TABLES.sql"/>
 </databaseChangeLog>
