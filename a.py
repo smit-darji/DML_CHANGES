@@ -1,31 +1,24 @@
 import snowflake.connector
 import sys
 import logging
-import os
-import argparse
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
-def get_connection(args):
+def get_connection(env, user, account, private_key_file, warehouse):
     """
     Establish and return a Snowflake database connection.
     """
-    user = args.user or os.getenv("SNOWFLAKE_USERNAME")
-    account = args.account or os.getenv("SNOWFLAKE_ACCOUNT")
-    warehouse = args.warehouse or os.getenv("SNOWFLAKE_WAREHOUSE")
-    private_key_file = args.private_key_file or os.getenv("SNOWFLAKE_PRIVATE_KEY_FILE")
-
-    if not all([user, account, warehouse, private_key_file]):
+    if not all([env, user, account, private_key_file, warehouse]):
         logging.error("❌ Missing required connection parameters.")
         sys.exit(1)
 
     return snowflake.connector.connect(
         user=user,
-        account="LKGVJUZ-WS14116",
+        account=account,
         warehouse=warehouse,
-        role="ACOUNTADMIN",
+        role="SYSADMIN",
         authenticator="SNOWFLAKE_JWT",
         private_key_file=private_key_file
     )
@@ -54,16 +47,11 @@ def create_student_table(conn):
         logging.info("🔒 Connection closed.")
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="Create student table in Snowflake")
-    parser.add_argument("--user", help="Snowflake username")
-    parser.add_argument("--account", help="Snowflake account name")
-    parser.add_argument("--warehouse", help="Warehouse name")
-    parser.add_argument("--private-key-file", help="Path to private key in PEM format (unencrypted)")
-    return parser.parse_args()
-
-
 if __name__ == "__main__":
-    args = parse_args()
-    conn = get_connection(args)
+    if len(sys.argv) != 6:
+        logging.error("Usage: a.py <env> <user> <account> <private_key_file> <warehouse>")
+        sys.exit(1)
+
+    env, user, account, private_key_file, warehouse = sys.argv[1:]
+    conn = get_connection(env, user, account, private_key_file, warehouse)
     create_student_table(conn)
