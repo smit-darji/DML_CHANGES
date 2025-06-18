@@ -31,4 +31,7 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_PRIVATE_KEY_FILE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_FILE }}
           SNOWFLAKE_PRIVATE_KEY_PASSWORD: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSWORD }}
-        run: python a.py
+        run: |
+            echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+
+            python a.py "DEV" "${{ secrets.DEV_SNOWFLAKE_USERNAME }}" "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"  snowflake_key.p8 "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}" "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
