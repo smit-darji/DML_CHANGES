@@ -2,7 +2,7 @@ name: Dev - Liquibase deployments
 on: 
   pull_request: 
     branches: 
-      - Master
+      - main
   workflow_dispatch:
     inputs:
       environment:
@@ -86,14 +86,26 @@ jobs:
           $env:SNOWFLAKE_EXT_STG_ENV = "dev"
           $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
           $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          $env:SNOWFLAKE_ROLE = "ACCOUNTADMIN"
+          $env:SNOWFLAKE_ROLE = "SYSADMIN"
           $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
+          $env:AWS_ACCOUNT = "958500205200" 
+          $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
+          ls
+          pwd
+          echo "Creating private key file from secret..."
+          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          echo "========================================================="
+          ls
+          pwd
+          echo "========================================================="
+          echo "Private key file created."
+          $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
-          
+          mvn liquibase:tag -Dliquibase.tag="PR-${{ github.event.pull_request.number }}"
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
@@ -109,29 +121,16 @@ jobs:
           $env:SNOWFLAKE_EXT_STG_ENV = "dev"
           $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
           $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          $env:SNOWFLAKE_ROLE = "ACCOUTNADMIN"
+          $env:SNOWFLAKE_ROLE = "SYSADMIN"
           $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
           $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
-          ls
-          pwd
-          echo "Creating private key file from secret..."
           echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
-          echo "========================================================="
-          ls
-          pwd
-          echo "========================================================="
-          echo "Private key file created."
-          # Ensure the private key file is readable
-          cat snowflake_key.p8
-        
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
-         
-  
 
  
