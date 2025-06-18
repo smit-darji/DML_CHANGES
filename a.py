@@ -1,46 +1,66 @@
 import snowflake.connector
-import os
+import sys
+import logging
 
-def get_connection():
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+
+
+def get_connection(user, account, warehouse, private_key_path, private_key_password):
+    """Connect to Snowflake using private key auth."""
+    try:
+        with open(private_key_path, "rb") as key_file:
+            private_key = key_file.read()
+
+        connection = snowflake.connector.connect(
+            user=user,
+            account=account,
+            warehouse=warehouse,
+            private_key=private_key,
+            private_key_password=private_key_password
+        )
+
+        logging.info("✅ Connected to Snowflake.")
+        return connection
+    except Exception as e:
+        logging.error(f"❌ Connection failed: {e}")
+        sys.exit(1)
+
+
+def create_student_table(conn):
+    """Create a student table in demo_db.public"""
+    create_table_sql = """
+    CREATE OR REPLACE TABLE demo_db.public.student (
+        student_id INT PRIMARY KEY,
+        first_name STRING,
+        last_name STRING,
+        enrollment_date DATE
+    );
     """
-    Establish and return a Snowflake connection using environment variables and key-pair auth.
-    """
-    return snowflake.connector.connect(
-        user=os.getenv("SNOWFLAKE_USERNAME"),
-        account=os.getenv("SNOWFLAKE_ACCOUNT"),
-        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
-        role="ACCOUNTADMIN",
-        authenticator="SNOWFLAKE_JWT",
-        private_key_file=os.getenv("SNOWFLAKE_PRIVATE_KEY_FILE"),
-        private_key_password=os.getenv("SNOWFLAKE_PRIVATE_KEY_PASSWORD")
-    )
+    try:
+        with conn.cursor() as cur:
+            cur.execute("USE DATABASE demo_db;")
+            cur.execute("USE SCHEMA public;")
+            cur.execute(create_table_sql)
+            logging.info("✅ Table demo_db.public.student created successfully.")
+    except Exception as e:
+        logging.error(f"❌ Failed to create table: {e}")
+    finally:
+        conn.close()
+        logging.info("🔒 Connection closed.")
 
-# Connect and run queries
-conn = get_connection()
-cur = conn.cursor()
 
-try:
-    # Create database and schema
-    cur.execute("CREATE DATABASE IF NOT EXISTS demo_DB;")
-    print("Database 'demo_DB' ensured.")
+def main():
+    if len(sys.argv) != 7:
+        logging.error("Usage: python a.py <ENV> <USER> <PASSWORD> <PRIVATE_KEY_PATH> <PRIVATE_KEY_PASSWORD> <WAREHOUSE>")
+        sys.exit(1)
 
-    cur.execute("CREATE SCHEMA IF NOT EXISTS demo_DB.public;")
-    print("Schema 'public' ensured in database 'demo_DB'.")
+    _, env, user, password, private_key_path, private_key_password, warehouse = sys.argv
+    account = "LKGVJUZ-WS14116"  # Replace with your Snowflake account identifier
 
-    # Set context
-    cur.execute("USE DATABASE demo_DB;")
-    cur.execute("USE SCHEMA public;")
+    conn = get_connection(user, account, warehouse, private_key_path, private_key_password)
+    create_student_table(conn)
 
-    # Create table
-    cur.execute("""
-        CREATE OR REPLACE TABLE DEMO (
-            id INT AUTOINCREMENT,
-            name STRING,
-            created_at TIMESTAMP
-        );
-    """)
-    print("Table 'DEMO' created successfully.")
 
-finally:
-    cur.close()
-    conn.close()
+if __name__ == "__main__":
+    main()
