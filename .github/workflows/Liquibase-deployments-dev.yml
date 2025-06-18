@@ -117,7 +117,7 @@ jobs:
           ls
           pwd
           echo "Creating private key file from secret..."
-          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          cat snowflake_rsa_key.p8 > snowflake_key.p8
           echo "========================================================="
           ls
           pwd
