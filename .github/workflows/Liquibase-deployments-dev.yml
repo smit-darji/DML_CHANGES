@@ -105,7 +105,6 @@ jobs:
           mvn install 
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
-          mvn liquibase:tag -Dliquibase.tag="PR-${{ github.event.pull_request.number }}"
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
