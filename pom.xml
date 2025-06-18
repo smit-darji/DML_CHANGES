@@ -11,8 +11,8 @@
 
     <properties>
         <snowflake.envId>${env.SNOWFLAKE_ENV_ID}</snowflake.envId>
-        <snowflake.extStgEnv>${env.SNOWFLAKE_EXT_STG_ENV}</snowflake.extStgEnv>
-        <snowflake.sdlfAccountId>${env.AWS_SDLF_ACCOUNT_ID}</snowflake.sdlfAccountId>
+        <!-- <snowflake.extStgEnv>${env.SNOWFLAKE_EXT_STG_ENV}</snowflake.extStgEnv>
+        <snowflake.sdlfAccountId>${env.AWS_SDLF_ACCOUNT_ID}</snowflake.sdlfAccountId> -->
     </properties>
 
     <modules>
