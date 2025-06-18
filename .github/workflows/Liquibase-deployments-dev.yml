@@ -115,6 +115,10 @@ jobs:
           $env:AWS_ACCOUNT = "958500205200" 
           $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
           echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          echo "Private key file created."
+          # Ensure the private key file is readable
+          cat snowflake_key.p8
+        
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
