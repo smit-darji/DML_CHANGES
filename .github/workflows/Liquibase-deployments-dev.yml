@@ -106,7 +106,9 @@ jobs:
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
-          liquibase tag --tag=myTag
+          mvn liquibase:update -Dliquibase.tag="${{ github.pull_request.inputs.liquibase_tag }}"
+
+
 
   
   Liquibase_Job_On_Branch:
