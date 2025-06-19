@@ -85,8 +85,8 @@ jobs:
           $env:SNOWFLAKE_ENV_ID = "DEV"
           $env:SNOWFLAKE_EXT_STG_ENV = "dev"
           $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
-          $env:SNOWFLAKE_WAREHOUSE = "SNOWFLAKE_LEARNING_WH
-          $env:SNOWFLAKE_ROLE = "ACCOUNTADMIN"
+          $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          $env:SNOWFLAKE_ROLE = "public"
           $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
@@ -120,8 +120,8 @@ jobs:
           $env:SNOWFLAKE_ENV_ID = "DEV"
           $env:SNOWFLAKE_EXT_STG_ENV = "dev"
           $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
-          $env:SNOWFLAKE_WAREHOUSE = "SNOWFLAKE_LEARNING_WH
-          $env:SNOWFLAKE_ROLE = "ACCOUNTADMIN"
+          $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          $env:SNOWFLAKE_ROLE = "public"
           $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
