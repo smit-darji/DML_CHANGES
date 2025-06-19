@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <property name="table_name" value="DATABASECHANGELOG"/>
-    <property name="release_tag" value="default-tag"/>
+    <!-- <property name="release_tag" value="default-tag"/> -->
 
     <preConditions>
         <sqlCheck expectedResult="DEV_RZ.ACCOUNTING_ANALYTICS">
