@@ -24,7 +24,7 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-                    <url>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;role=FULL_ACCESS_ROLE&amp;db=DEV_RZ&amp;schema=ACCOUNTING_ANALYTICS</url>
+                    <url>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=SNOWFLAKE_LEARNING_WH&amp;role=FULL_ACCESS_ROLE&amp;db=DEV_RZ&amp;schema=ACCOUNTING_ANALYTICS</url>
                 </configuration>
             </plugin>
         </plugins>
