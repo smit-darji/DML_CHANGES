@@ -24,7 +24,7 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-                    <url>${snowflake.urlBase}&amp;db=${snowflake.envId}_${snowflake.db}&amp;schema=${snowflake.schema}</url>
+                    <url>${snowflake.urlBase}&amp;db=DEV_RZ&amp;schema=ACCOUNTING_ANALYTICS</url>
                 </configuration>
             </plugin>
         </plugins>
