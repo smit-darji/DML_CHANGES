@@ -10,4 +10,14 @@
     </sqlCheck>
   </preConditions>
     <include file="CHANGES/0002_CREATE_TABLES.sql"/>
+  <changeSet id="tag-current-deployment" author="ci-bot" runAlways="true" runOnChange="true">
+    <sql>
+      <![CDATA[
+      UPDATE DATABASECHANGELOG
+      SET TAG = '${liquibase.tag}'
+      WHERE DEPLOYMENT_ID = '${liquibase.deploymentId}'
+        AND TAG IS NULL;
+      ]]>
+    </sql>
+  </changeSet>
 </databaseChangeLog>
