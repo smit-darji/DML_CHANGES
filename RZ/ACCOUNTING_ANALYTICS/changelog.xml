@@ -6,14 +6,19 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <property name="table_name" value="DATABASECHANGELOG"/>
+    <property name="release_tag" value="default-tag"/>
 
     <preConditions>
         <sqlCheck expectedResult="DEV_RZ.ACCOUNTING_ANALYTICS">
             SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
         </sqlCheck>
     </preConditions>
-    <changeSet id="tag-1.0.0" author="test-1">
+    <!-- <changeSet id="tag-1.0.0" author="test-1">
         <tagDatabase tag="v1.0.0"/>
+    </changeSet> -->
+
+    <changeSet id="tag-${release_tag}" author="test-1">
+        <tagDatabase tag="${release_tag}"/>
     </changeSet>
 
     <include file="CHANGES/0002_CREATE_TABLES.sql"/>

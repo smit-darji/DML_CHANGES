@@ -115,7 +115,8 @@ jobs:
           echo "Using Liquibase tag: $tag"
 
           mvn liquibase:update
-          liquibase tag abcd
+          
+
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
