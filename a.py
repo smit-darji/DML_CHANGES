@@ -18,7 +18,7 @@ def get_connection(env, user, account, private_key_file, warehouse):
         user=user,
         account=account,
         warehouse=warehouse,
-        role="ACOUNTADMIN",
+        role="public",
         authenticator="SNOWFLAKE_JWT",
         private_key_file=private_key_file
     )
