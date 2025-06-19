@@ -101,8 +101,8 @@ jobs:
           mvn install 
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn -Pdev liquibase:update
-          mvn -Pdev -Dliquibase.tag=liquibase-dev-deploy liquibase:tag
+          mvn liquibase:update
+
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
@@ -129,8 +129,8 @@ jobs:
           mvn install 
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn -Pdev liquibase:update
-          mvn -Pdev -Dliquibase.tag=liquibase-dev-deploy liquibase:tag
+          mvn liquibase:update
+          mvn liquibase:tag -Dliquibase.tag=liquibase-dev-deploy
 
 
 
