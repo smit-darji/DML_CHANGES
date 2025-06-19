@@ -103,6 +103,7 @@ jobs:
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
+          chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
   
@@ -129,6 +130,7 @@ jobs:
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
+          chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
 
