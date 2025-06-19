@@ -4,10 +4,35 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
   <preConditions>
-      <sqlCheck expectedResult="DEV_RZ.ACCOUNTING_ANALYTICS">
-    SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
+    <sqlCheck expectedResult="DEV_RZ.ACCOUNTING_ANALYTICS">
+      SELECT CONCAT(CURRENT_DATABASE(), '.', CURRENT_SCHEMA());
     </sqlCheck>
   </preConditions>
-    <include file="CHANGES/0002_CREATE_TABLES.sql"/>
+
+  <include file="CHANGES/0002_CREATE_TABLES.sql"/>
+
+  <changeSet id="set-tag-column" author="ci-bot" runAlways="true" runOnChange="true">
+    <sql>
+      <![CDATA[
+      UPDATE DATABASECHANGELOG
+      SET TAG = '${liquibase.tag}'
+      WHERE DEPLOYMENT_ID IN (
+        SELECT DEPLOYMENT_ID
+        FROM (
+          SELECT DEPLOYMENT_ID,
+                ROW_NUMBER() OVER (ORDER BY MAX(DATEEXECUTED) DESC) AS rn
+          FROM DATABASECHANGELOG
+          WHERE TAG IS NULL
+          GROUP BY DEPLOYMENT_ID
+        )
+        WHERE rn = 1
+      );
+      ]]>
+    </sql>
+  </changeSet>
+
+
+
 </databaseChangeLog>

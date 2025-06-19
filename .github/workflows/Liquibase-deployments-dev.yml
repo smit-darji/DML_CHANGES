@@ -11,6 +11,10 @@ on:
           description: "environment"
           options:
             - "Dev"
+      liquibase_tag:
+          required: true
+          type: string
+          description: "Liquibase tag to apply (e.g. liquibase-dev-deploy-123)"
 
 jobs:
 
@@ -129,8 +133,8 @@ jobs:
           mvn install 
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn liquibase:update
-          mvn liquibase:tag -Dliquibase.tag=liquibase-dev-deploy
+          mvn liquibase:update -Dliquibase.tag="${{ github.event.inputs.liquibase_tag }}"
+
 
 
 
