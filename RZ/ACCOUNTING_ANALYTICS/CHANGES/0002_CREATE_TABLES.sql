@@ -1,12 +1,13 @@
 --liquibase formatted sql
 
---changeset 12:0010-create-agile-reporting-12
+--changeset 12:0010-create-agile-reporting-1testing
+--tag:cr1212
 use database DEV_RZ;
 use schema ACCOUNTING_ANALYTICS;
 use role FULL_ACCESS_ROLE;
 use warehouse SNOWFLAKE_LEARNING_WH;
 
-CREATE TABLE IF NOT EXISTS DEV_RZ.ACCOUNTING_ANALYTICS.demo12121av2(
+CREATE TABLE IF NOT EXISTS DEV_RZ.ACCOUNTING_ANALYTICS.agile_reporting_testing(
     ID             NUMBER       PRIMARY KEY,
     NAME           STRING       NOT NULL,
     STATUS         STRING,

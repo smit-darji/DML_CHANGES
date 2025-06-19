@@ -114,7 +114,7 @@ jobs:
 
           echo "Using Liquibase tag: $tag"
 
-          mvn liquibase:update -Drelease_tag=v2-testing
+          mvn liquibase:update -Drelease_tag=cr1212
 
           # mvn liquibase:update
           
