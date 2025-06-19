@@ -116,10 +116,6 @@ jobs:
 
           mvn liquibase:update
           liquibase tag $tag
-
-
-
-
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'

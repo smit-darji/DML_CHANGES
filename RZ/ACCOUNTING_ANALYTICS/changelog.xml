@@ -14,12 +14,4 @@
     </preConditions>
 
     <include file="CHANGES/0002_CREATE_TABLES.sql"/>
-
-    <changeSet id="1" author="yourname">
-        <comment>Example changeset</comment>
-        <!-- your changes here -->
-    </changeSet>
-
-    <tagDatabase tag="${table_name}"/>
-
 </databaseChangeLog>
