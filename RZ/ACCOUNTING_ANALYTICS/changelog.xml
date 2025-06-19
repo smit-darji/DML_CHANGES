@@ -13,7 +13,7 @@
   <changeSet id="tag-current-deployment" author="ci-bot" runAlways="true" runOnChange="true">
     <sql>
       <![CDATA[
-      UPDATE DATABASECHANGELOG
+      UPDATE DEV_RZ.ACCOUNTING_ANALYTICS.DATABASECHANGELOG
       SET TAG = '${liquibase.tag}'
       WHERE DEPLOYMENT_ID = '${liquibase.deploymentId}'
         AND TAG IS NULL;

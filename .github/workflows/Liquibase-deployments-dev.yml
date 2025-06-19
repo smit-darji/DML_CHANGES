@@ -105,9 +105,17 @@ jobs:
           mvn install 
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn liquibase:update
-          mvn liquibase:update -Dliquibase.tag="${{ github.pull_request.inputs.liquibase_tag }}"
+          # Generate tag based on PR number or fallback to timestamp
+          if ($env:GITHUB_EVENT_NAME -eq "pull_request") {
+            $tag = "liquibase-pr-${{ github.event.pull_request.number }}"
+          } else {
+            $tag = "liquibase-auto-" + (Get-Date -Format "yyyyMMddHHmmss")
+          }
 
+          echo "Using Liquibase tag: $tag"
+
+          mvn liquibase:update -Dliquibase.tag=$tag
+          mvn liquibase:tag -Dliquibase.tag=$tag
 
 
   
