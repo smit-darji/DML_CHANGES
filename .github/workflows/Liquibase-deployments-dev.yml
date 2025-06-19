@@ -113,9 +113,11 @@ jobs:
           }
 
           echo "Using Liquibase tag: $tag"
-          liquibase --changeLogFile=ChangeLog.xml --table_name=$tag
-          # mvn liquibase:update -Dliquibase.tag=$tag
-          # mvn liquibase:tag -Dliquibase.tag=$tag
+
+          mvn liquibase:update
+          liquibase tag $tag
+
+
 
 
   
