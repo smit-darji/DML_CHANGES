@@ -13,26 +13,15 @@
 
   <include file="CHANGES/0002_CREATE_TABLES.sql"/>
 
-  <changeSet id="set-tag-column" author="ci-bot" runAlways="true" runOnChange="true">
+  <changeSet id="set-tag-current-only" author="ci-bot" runAlways="true" runOnChange="true">
     <sql>
       <![CDATA[
       UPDATE DATABASECHANGELOG
       SET TAG = '${liquibase.tag}'
-      WHERE DEPLOYMENT_ID IN (
-        SELECT DEPLOYMENT_ID
-        FROM (
-          SELECT DEPLOYMENT_ID,
-                ROW_NUMBER() OVER (ORDER BY MAX(DATEEXECUTED) DESC) AS rn
-          FROM DATABASECHANGELOG
-          WHERE TAG IS NULL
-          GROUP BY DEPLOYMENT_ID
-        )
-        WHERE rn = 1
-      );
+      WHERE DEPLOYMENT_ID = '${liquibase.deploymentId}' AND TAG IS NULL;
       ]]>
     </sql>
-  </changeSet>
-
+</changeSet>
 
 
 </databaseChangeLog>
