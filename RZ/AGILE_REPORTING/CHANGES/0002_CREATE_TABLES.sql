@@ -2,7 +2,9 @@
 
 --changeset yourname:0010-create-agile-reporting-table01
 
-CREATE TABLE IF NOT EXISTS DEV_RZ.ACCOUNTING_ANALYTICS.TASKS (
+use database DEV_RZ;
+use schema AGILE_REPORTING;
+CREATE TABLE IF NOT EXISTS DEV_RZ.AGILE_REPORTING.TASKS (
     ID             NUMBER       PRIMARY KEY,
     NAME           STRING       NOT NULL,
     STATUS         STRING,
