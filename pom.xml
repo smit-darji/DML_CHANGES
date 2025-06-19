@@ -1,56 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>snowflake-liquibase</artifactId>
-    <version>1.0.0</version>
+    <groupId>groupId</groupId>
+    <artifactId>snowflake-datalake-schema</artifactId>
     <packaging>pom</packaging>
+    <version>1.0.0</version>
 
     <properties>
-        <liquibase.version>4.2.2</liquibase.version>
-        <liquibase.snowflake.version>4.2.1</liquibase.snowflake.version>
-        <snowflake.jdbc.version>3.22.0</snowflake.jdbc.version>
         <snowflake.envId>${env.SNOWFLAKE_ENV_ID}</snowflake.envId>
+        <snowflake.extStgEnv>${env.SNOWFLAKE_EXT_STG_ENV}</snowflake.extStgEnv>
+        <snowflake.sdlfAccountId>${env.AWS_SDLF_ACCOUNT_ID}</snowflake.sdlfAccountId>
     </properties>
 
     <modules>
-        <module>RZ/ACCOUNTING_ANALYTICS</module>
+      <!-- <module>SECURITY/SNF_MANAGEMENT</module> -->
+      <module>RZ/SMART_RENT</module>
+      <module>TZ/REV_MGMT</module>
+      <module>RCZ/SMART_RENT</module> 
+      <module>TZ/HR_MANAGEMENT</module>
+      <module>CZ/HUMAN_RESOURCE_ANALYSIS</module>
+      <module>AUDIT/TABLEAU</module>    
+      <!-- <module>RZ/ATLAN</module> -->
+      <module>RZ/OTM</module>
+      <module>TZ/OTM</module>
+        <module>RCZ/OTM</module>
+        <module>CZ/DIGITAL_EXPERIENCE_MAIN</module>
+		    <module>CZ/DIGITAL_EXPERIENCE_ANALYSIS</module>
+        <module>DATA_SHARE/PATHWAY_SHARE</module>
+        <module>CZ/RTM_MAIN</module>
+        <module>CZ/RTM_ANALYSIS</module>
+		<module>TZ/SMART_RENT</module>
+        <module>CZ/MARKETING_MAIN</module>
+        <module>CZ/MARKETING_ANALYSIS</module>
+        <!-- <module>RCZ/SMS_ASSIST</module>  -->
+        <!-- <module>SECURITY/TABLEAU_RLS</module> -->
+        <module>TZ/TABLEAU_OUTPUT_CONSOLIDATION</module>
+        <module>RCZ/YARDI_DBO</module>
+        <module>CZ/LPM_MAIN</module>
+        <module>CZ/LPM_ANALYSIS</module> 
+        <module>RCZ/INVH_SALESFORCE</module>
+        <module>RCZ/QUALTRICS</module>
+        <module>TZ/USER_EXPERIENCE_SURVEY</module>
+        <module>CZ/LEASING_EXPERIENCE_MAIN</module>
+        <module>CZ/LEASING_EXPERIENCE_ANALYSIS</module>
+        <module>RZ/SYNDICATION_IH</module>
+        <module>RCZ/SYNDICATION_IH</module>
+        <!-- <module>RZ/OPENDOOR</module> -->
+        <!-- <module>CZ/POLARIS</module> -->
+        <!-- <module>RZ/MLS</module> -->
+        <!-- <module>TZ/MLS</module> -->
+        <!-- <module>RZ/RINGCENTRAL</module> -->
+        <!-- <module>TZ/RINGCENTRAL</module> -->
+        <!-- <module>MULESOFT/SURVEY_RESULTS</module> -->
+        <module>TZ/NATIONAL_RTM</module>
+        <!-- <module>RZ/NATIONAL_RTM</module> -->
+        <!-- <module>RZ/ZILLOW</module> -->
+        <!-- <module>RCZ/ZILLOW</module> -->
+        <module>TZ/SYNDICATION</module>
+        <module>AUDIT/TABLEAU_WORKGROUP</module>
+        <module>AUDIT/RECONCILIATION</module>
+        <module>RZ/INVH_SALESFORCE</module>
+        <module>RZ/YARDI_STAGING</module>
+        <module>RZ/YARDI_DBO</module>  
+        <!-- <module>TZ/EDW_DBO_REPLICA</module> -->
+        <!-- <module>TZ/IMG_DISPOSITION_TRACKER</module>
+        <module>TZ/IMG_CAPITAL_ALLOCATION</module> -->
+        <module>RZ/QUALTRICS</module>
+        <!-- <module>RZ/STG_EDW</module> -->
+        <!-- <module>TZ/QUALTRICS</module>
+        <module>TZ/EDW_SNF_DBO</module> -->
+        <module>TZ/INVH_SALESFORCE</module>
+        <!-- <module>MULESOFT/DATORAMA_DATA</module>
+        <module>MULESOFT/TRANSUNION</module> -->
+        <module>TZ/EDW</module>
+        <module>AUDIT/PUBLIC</module>
+        <module>TZ/EDW_STAGING</module>
+        <!-- <module>RZ/ACCOUNTING_ANALYTICS</module> -->
+        <module>RZ/SMS_ASSIST</module>
+        <module>RZ/SMS_ASSIST_STAGING</module>
+        <module>TZ/TASKEASY</module>
+        <!-- <module>RZ/SYNDICATION_HISTORY</module>
+        <module>TZ/SYNDICATION_HISTORY</module>
+        <module>TZ/DATADOG</module>
+        <module>RZ/CHATMETER</module>
+        <module>TZ/CHATMETER</module>
+        <module>RZ/LEARNUPON</module>
+        <module>RCZ/LEARNUPON</module>
+        <module>TZ/LEARNUPON</module> -->
+        <module>TZ/LEARNING_AND_DEVELOPMENT</module>
+        <!-- <module>RZ/MARKERR</module> -->
+        <!-- <module>TZ/MARKERR</module> -->
+        <!-- <module>RCZ/CHATMETER</module>
+        <module>TZ/WEB_RATING</module>
+        <module>RZ/BATCH</module> -->
+        <!-- <module>MULESOFT/LQA_DATA</module> -->
+        <!-- <module>CZ/SYNDICATION</module>
+        <module>RCZ/MARKERR</module>-->
+		<module>RZ/CENSUS_DATA</module>
+		<module>RCZ/CENSUS_DATA</module>
+        <module>TZ/DEMOGRAPHIC</module>
+        <module>TZ/PROPERTY</module>
+		<!--<module>RZ/GOOGLE_ANALYTICS</module>
+		<module>RCZ/GOOGLE_ANALYTICS</module> -->
+        <!-- <module>TZ/CUSTOMER_ACTIVITIY</module> -->
+		<!-- <module>TZ/CUSTOMER_ACTIVITY</module> -->
+        <!-- <module>CZ/DIGITAL_PRODUCT</module> -->
+        <!--<module>CZ/DIGITAL_EXPERIENCE</module> -->
+        <!-- <module>RZ/APARTMENTSDOTCOM</module>
+        <module>RCZ/APARTMENTSDOTCOM</module> -->
+        <module>CZ/PROPERTY</module>
+		<!-- <module>CZ/HUMAN_RESOURCE_MAIN</module> -->
+		<module>CZ/IMG_MAIN</module>
+		<module>CZ/IMG_ANALYSIS</module>
+        <module>RZ/CONSERVICE</module>
+        <module>RCZ/CONSERVICE</module>
+        <module>TZ/CONSERVICE</module>
+        <module>QUALITY</module>
+        <module>RZ/RYAN_LLC</module>
+		    <module>RCZ/RYAN_LLC</module>
         <module>RZ/AGILE_REPORTING</module>
+        <module>RCZ/AGILE_REPORTING</module>
+        <module>TZ/AGILE_REPORTING</module>
+        <module>CZ/AGILE_REPORTING_MAIN</module>
+        <module>CZ/AGILE_REPORTING_ANALYSIS</module>
+        <module>RCZ/PLAID</module>
+        <module>RZ/PLAID</module>
+        <module>RZ/LEASING_APPLICATION</module>
+		<module>RZ/PLS</module>
+        <module>RCZ/PLS</module>
+        <module>RZ/MAINSTAY</module>
+        <module>RCZ/MAINSTAY</module>
+        <module>RZ/SCHEMA_SNAPSHOTS</module>
+        <module>RZ/OXFORD_ECON</module>
+        <module>RCZ/OXFORD_ECON</module>
+        <module>RZ/WORKDAY</module>
+        <module>RCZ/WORKDAY</module>
+        <module>RZ/ROOFSTOCK</module>
+        <module>DATA_SHARE/STARWOOD_SHARE</module>
+        <module>TZ/PLAID</module>
+        <module>CZ/PLAID_MAIN</module>
+        <module>CZ/PLAID_ANALYSIS</module>        
+        <module>RZ/ANAPLAN</module>
+        <module>RCZ/ANAPLAN</module>
+		<module>CZ/PROPERTY_ANALYSIS</module>
+		<module>RZ/ATLAS</module>
+		<module>RZ/SELF_SHOW</module>
+        <module>RCZ/FRAUD_RISK</module>
+        <module>RCZ/ATLAS</module>
+		<module>RCZ/SELF_SHOW</module>
     </modules>
 
     <build>
+        <outputDirectory>${project.basedir}</outputDirectory>
+        <testOutputDirectory>${project.basedir}</testOutputDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>${liquibase.version}</version>
+                    <version>4.2.2</version>
                     <configuration>
+                        <skip>true</skip>
                         <changeLogFile>changelog.xml</changeLogFile>
                         <driver>net.snowflake.client.jdbc.SnowflakeDriver</driver>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <verbose>true</verbose>
                         <username>${env.SNOWFLAKE_USER}</username>
                         <password>${env.SNOWFLAKE_PASSWORD}</password>
-                        <url>${snowflake.urlBase}</url>
-                        <verbose>true</verbose>
-                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         <expressionVariables>
                             <envId>${snowflake.envId}</envId>
+                            <extStgEnv>${snowflake.extStgEnv}</extStgEnv>
+                            <sdlfAccountId>${snowflake.sdlfAccountId}</sdlfAccountId>
                         </expressionVariables>
                     </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>org.liquibase.ext</groupId>
                             <artifactId>liquibase-snowflake</artifactId>
-                            <version>${liquibase.snowflake.version}</version>
+                            <version>4.2.1</version>
                         </dependency>
                         <dependency>
                             <groupId>net.snowflake</groupId>
                             <artifactId>snowflake-jdbc</artifactId>
-                            <version>${snowflake.jdbc.version}</version>
+                            <version>3.22.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -58,31 +193,54 @@
         </pluginManagement>
     </build>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <property>
-                    <name>env.SNOWFLAKE_ENV_ID</name>
-                    <value>DEV</value>
-                </property>
-            </activation>
-            <properties>
-                <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_rsa_key.p8</snowflake.urlBase>
-            </properties>
-        </profile>
+ <profiles>
+      <profile>
+           <id>dev</id>
+           <activation>
+              <property>
+                 <name>env.SNOWFLAKE_ENV_ID</name>
+                 <value>DEV</value>
+              </property>
+           </activation>
+           <properties>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+           </properties>
+      </profile>
 
-       
+      <profile>
+           <id>qa</id>
+           <activation>
+              <property>
+                 <name>env.SNOWFLAKE_ENV_ID</name>
+                 <value>QA</value>
+              </property>
+           </activation>
+           <properties>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+           </properties>
+      </profile>
 
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_rsa_key.p8</snowflake.urlBase>
-            </properties>
-        </profile>
+      <profile>
+           <id>prod</id>
+           <activation>
+              <property>
+                 <name>env.SNOWFLAKE_ENV_ID</name>
+                 <value>PROD</value>
+              </property>
+           </activation>
+           <properties>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+           </properties>
+      </profile>
+
+       <profile>
+           <id>default</id>
+           <activation>
+             <activeByDefault>true</activeByDefault>
+           </activation>
+           <properties>
+             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+           </properties>
+       </profile>
     </profiles>
-
 </project>
