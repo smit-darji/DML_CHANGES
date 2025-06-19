@@ -29,7 +29,7 @@ def get_connection():
         private_key_file_pwd=private_file_password,
         account=account,
         warehouse=warehouse,
-        role="ACCOUNTADMIN",
+        role="FULL_ACCESS_ROLE",
     )
 
 

@@ -29,12 +29,12 @@ jobs:
           SNOWFLAKE_USERNAME: ${{ secrets.DEV_SNOWFLAKE_USERNAME }}
           SNOWFLAKE_PASSWORD: ${{ secrets.DEV_SNOWFLAKE_PASSWORD }}
           SNOWFLAKE_ACCOUNT: LKGVJUZ-WS14116
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_WAREHOUSE: SNOWFLAKE_LEARNING_WH
           SNOWFLAKE_PRIVATE_KEY_PASSWORD: ${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}
         run: |
           echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}"
           ls
           pwd
           
-          python a.py "DEV" "${{ secrets.DEV_SNOWFLAKE_USERNAME }}" "LKGVJUZ-WS14116" snowflake_rsa_key.p8 "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          python a.py "DEV" "${{ secrets.DEV_SNOWFLAKE_USERNAME }}" "LKGVJUZ-WS14116" snowflake_rsa_key.p8 "SNOWFLAKE_LEARNING_WH"
 
