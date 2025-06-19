@@ -91,14 +91,10 @@ jobs:
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
           $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
-          ls
-          pwd
+
           echo "Creating private key file from secret..."
           echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_rsa_key.p8
-          echo "========================================================="
-          ls
-          pwd
-          echo "========================================================="
+        
           echo "Private key file created."
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
@@ -106,6 +102,8 @@ jobs:
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
+          mvn liquibase:tag -Dliquibase.tag=liquibase-dev-deploy
+
   
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
@@ -133,5 +131,7 @@ jobs:
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
           mvn liquibase:update
+          mvn liquibase:tag -Dliquibase.tag=liquibase-dev-deploy
+
 
  
