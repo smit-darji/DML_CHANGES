@@ -39,8 +39,8 @@
                         <password>${env.SNOWFLAKE_PASSWORD}</password>
                         <expressionVariables>
                             <envId>${snowflake.envId}</envId>
-                            <extStgEnv>${snowflake.extStgEnv}</extStgEnv>
-                            <sdlfAccountId>${snowflake.sdlfAccountId}</sdlfAccountId>
+                            <!-- <extStgEnv>${snowflake.extStgEnv}</extStgEnv>
+                            <sdlfAccountId>${snowflake.sdlfAccountId}</sdlfAccountId> -->
                         </expressionVariables>
                     </configuration>
                     <dependencies>
