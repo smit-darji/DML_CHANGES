@@ -70,7 +70,7 @@
               </property>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;role=ACOUNTADMIN&amp;private_key_file=snowflake_rsa_key.p8&amp;private_key_pwd=Smit@1312</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;role=ACOUNTADMIN</snowflake.urlBase>
            </properties>
       </profile>
 
@@ -80,7 +80,7 @@
              <activeByDefault>true</activeByDefault>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;role=ACOUNTADMIN&amp;private_key_file=snowflake_rsa_key.p8&amp;private_key_pwd=Smit@1312</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;role=ACOUNTADMIN</snowflake.urlBase>
            </properties>
        </profile>
     </profiles>
