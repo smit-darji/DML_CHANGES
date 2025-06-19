@@ -18,14 +18,14 @@ def get_connection(env, user, account, private_key_file, warehouse):
         user=user,
         account=account,
         warehouse=warehouse,
-        role="public",
+        role="ACCOUNTADMIN",
         authenticator="SNOWFLAKE_JWT",
         private_key_file=private_key_file
     )
 
 
 def create_student_table(conn):
-    """Create a student table in demo_db.public"""
+    """Create a student table in demo_db.ACCOUNTADMIN"""
     create_table_sql = """
     CREATE OR REPLACE TABLE demo_db.public.student (
         student_id INT PRIMARY KEY,
