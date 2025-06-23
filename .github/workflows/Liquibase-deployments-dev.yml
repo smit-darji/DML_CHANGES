@@ -116,7 +116,9 @@ jobs:
 
           mvn liquibase:update
           echo "Liquibase update completed."
-          mvn liquibase:updateToTag -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=RZ/AGILE_REPORTING/changelog.xml
+          mvn liquibase:updateToTag -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=master-changelog.xml
+
+          # mvn liquibase:updateToTag -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=RZ/AGILE_REPORTING/changelog.xml
 
 
   Liquibase_Job_On_Branch:
