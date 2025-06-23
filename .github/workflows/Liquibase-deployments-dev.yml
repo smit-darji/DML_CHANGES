@@ -115,10 +115,10 @@ jobs:
           echo "Using Liquibase tag: $tag"
 
           mvn liquibase:update 
-          liquibase update-to-tag abcdtag
-
-          # mvn liquibase:update
-          
+          find RZ -name "changelog.xml" | while read file; do
+            liquibase --changelog-file="$file" update-to-tag myTag
+          done
+                
 
   
   Liquibase_Job_On_Branch:
