@@ -114,14 +114,10 @@ jobs:
 
           echo "Using Liquibase tag: $tag"
 
-          mvn liquibase:update 
-          
-          echo "Liquibase update completed with tag: $tag"
-          Get-ChildItem -Path RZ -Recurse -Filter "changelog.xml" | ForEach-Object {
-              liquibase --changelog-file=$_.FullName update-to-tag myTag
-          }                
+          mvn liquibase:update
+          echo "Liquibase update completed."
+          liquibase --changelog-file=RZ/AGILE_REPORTING/changelog.xml update-to-tag RZ_tag
 
-  
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
     runs-on: windows-latest
