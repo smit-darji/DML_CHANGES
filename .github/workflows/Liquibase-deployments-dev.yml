@@ -117,16 +117,25 @@ jobs:
 
           $output = & { mvn liquibase:update } 2>&1
 
+          # Run Liquibase update
+          $output = & { mvn liquibase:update } 2>&1
+
+          # Extract and display only the Deployment ID
           if ($output -match 'Deployment Id:\s*(\w+)') {
-            Write-Host "Deployment ID: $($matches[1])"
+            $deployment_id = $matches[1]
+            Write-Host "Deployment ID: $deployment_id"
           } else {
             Write-Host "Deployment ID not found."
           }
 
-          # echo "Liquibase update completed with tag: $tag"
-          # deployment_id=$(mvn liquibase:update | tee /dev/tty | grep -oP 'Deployment Id: \K\w+')
-          # echo "Deployment ID: $deployment_id"
-         
+          # Apply manual tag to the changelog
+          $tag_to_apply = "${{ github.event.inputs.liquibase_tag }}"
+          if (-not $tag_to_apply) {
+            $tag_to_apply = "liquibase-pr-${{ github.event.pull_request.number }}"
+          }
+
+          Write-Host "Applying tag: $tag_to_apply"
+          mvn liquibase:tag -Dliquibase.tag=$tag_to_apply
 
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
