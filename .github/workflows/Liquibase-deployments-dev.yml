@@ -114,12 +114,14 @@ jobs:
 
           echo "Using Liquibase tag: $tag"
 
-          mvn liquibase:update
-          echo "Liquibase update completed."
-          mvn liquibase:rollback -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=master-changelog.xml
+          deployment_id=$(mvn liquibase:update | tee /dev/tty | grep -oP 'Deployment Id: \K\w+')
+          echo "Deployment ID: $deployment_id"
+          # mvn liquibase:update
+          # echo "Liquibase update completed."
+          # mvn liquibase:rollback -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=master-changelog.xml
 
 
-          # mvn liquibase:updateToTag -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=RZ/AGILE_REPORTING/changelog.xml
+          # # mvn liquibase:updateToTag -Dliquibase.tag=RZ_tag -Dliquibase.changeLogFile=RZ/AGILE_REPORTING/changelog.xml
 
 
   Liquibase_Job_On_Branch:
