@@ -154,4 +154,13 @@ jobs:
           mvn install 
           chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn liquibase:update
+          # mvn liquibase:update
+          $output = & { mvn liquibase:update } 2>&1
+
+          # Set the tag to apply
+          $tag_to_apply = "${{ github.event.inputs.liquibase_tag }}"
+          Write-Host "Applying tag: $tag_to_apply"
+
+          # Apply the tag to the current HEAD without running update again
+          mvn liquibase:tag "-Dliquibase.tag=$tag_to_apply"
+          
