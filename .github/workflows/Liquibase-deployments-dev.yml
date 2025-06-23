@@ -113,11 +113,21 @@ jobs:
           }
 
           echo "Using Liquibase tag: $tag"
-          mvn liquibase:update
+          # mvn liquibase:update
 
-          echo "Liquibase update completed with tag: $tag"
-          deployment_id=$(mvn liquibase:update | tee /dev/tty | grep -oP 'Deployment Id: \K\w+')
-          echo "Deployment ID: $deployment_id"
+          $output = mvn liquibase:update
+          Write-Host $output
+
+          if ($output -match 'Deployment Id:\s*(\w+)') {
+            $deployment_id = $matches[1]
+            Write-Host "Deployment ID: $deployment_id"
+          } else {
+            Write-Host "Deployment ID not found in output."
+          }
+
+          # echo "Liquibase update completed with tag: $tag"
+          # deployment_id=$(mvn liquibase:update | tee /dev/tty | grep -oP 'Deployment Id: \K\w+')
+          # echo "Deployment ID: $deployment_id"
          
 
   Liquibase_Job_On_Branch:
