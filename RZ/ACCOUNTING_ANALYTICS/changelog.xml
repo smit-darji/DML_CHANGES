@@ -18,9 +18,9 @@
         <tagDatabase tag="v1.0.0"/>
     </changeSet> -->
 
-    <changeSet id="tag-${release_tag}" author="test-1">
+    <!-- <changeSet id="tag-${release_tag}" author="test-1">
         <tagDatabase tag="${release_tag}"/>
-    </changeSet>
+    </changeSet> -->
 
     <include file="CHANGES/0002_CREATE_TABLES.sql"/>
 </databaseChangeLog>

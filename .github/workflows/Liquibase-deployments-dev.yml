@@ -115,10 +115,11 @@ jobs:
           echo "Using Liquibase tag: $tag"
 
           mvn liquibase:update 
-          find RZ -name "changelog.xml" | while read file; do
-            liquibase --changelog-file="$file" update-to-tag myTag
-          done
-                
+          
+          echo "Liquibase update completed with tag: $tag"
+          Get-ChildItem -Path RZ -Recurse -Filter "changelog.xml" | ForEach-Object {
+              liquibase --changelog-file=$_.FullName update-to-tag myTag
+          }                
 
   
   Liquibase_Job_On_Branch:
