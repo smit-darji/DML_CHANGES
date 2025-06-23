@@ -115,14 +115,12 @@ jobs:
           echo "Using Liquibase tag: $tag"
           # mvn liquibase:update
 
-          $output = mvn liquibase:update
-          Write-Host $output
+          $output = & { mvn liquibase:update } 2>&1
 
           if ($output -match 'Deployment Id:\s*(\w+)') {
-            $deployment_id = $matches[1]
-            Write-Host "Deployment ID: $deployment_id"
+            Write-Host "Deployment ID: $($matches[1])"
           } else {
-            Write-Host "Deployment ID not found in output."
+            Write-Host "Deployment ID not found."
           }
 
           # echo "Liquibase update completed with tag: $tag"
