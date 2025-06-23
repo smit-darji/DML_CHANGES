@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset 12:0010-create-agile-reporting-1testing
---tag:${release_tag}
+
 use database DEV_RZ;
 use schema ACCOUNTING_ANALYTICS;
 use role FULL_ACCESS_ROLE;

@@ -115,7 +115,7 @@ jobs:
           echo "Using Liquibase tag: $tag"
 
           mvn liquibase:update 
-          liquibase changelog-sync-to-tag --tag=cr0503
+          liquibase update-to-tag abcdtag
 
           # mvn liquibase:update
           
