@@ -16,11 +16,9 @@
     </properties>
 
     <modules>
-      <!-- <module>SECURITY/SNF_MANAGEMENT</module> -->
       <module>RZ/ACCOUNTING_ANALYTICS</module>
       <module>RZ/AGILE_REPORTING</module>
-      
-    </modules>
+    </modules>  
 
     <build>
         <outputDirectory>${project.basedir}</outputDirectory>
@@ -30,7 +28,7 @@
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>4.2.2</version>
+                    <version>4.28.0</version>
                     <configuration>
                         <skip>true</skip>
                         <changeLogFile>changelog.xml</changeLogFile>
@@ -41,8 +39,8 @@
                         <password>${env.SNOWFLAKE_PASSWORD}</password>
                         <expressionVariables>
                             <envId>${snowflake.envId}</envId>
-                            <extStgEnv>${snowflake.extStgEnv}</extStgEnv>
-                            <sdlfAccountId>${snowflake.sdlfAccountId}</sdlfAccountId>
+                            <!-- <extStgEnv>${snowflake.extStgEnv}</extStgEnv>
+                            <sdlfAccountId>${snowflake.sdlfAccountId}</sdlfAccountId> -->
                         </expressionVariables>
                     </configuration>
                     <dependencies>
@@ -72,43 +70,17 @@
               </property>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=SNOWFLAKE_LEARNING_WH&amp;role=FULL_ACCESS_ROLE</snowflake.urlBase>
            </properties>
       </profile>
 
       <profile>
-           <id>qa</id>
-           <activation>
-              <property>
-                 <name>env.SNOWFLAKE_ENV_ID</name>
-                 <value>QA</value>
-              </property>
-           </activation>
-           <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
-           </properties>
-      </profile>
-
-      <profile>
-           <id>prod</id>
-           <activation>
-              <property>
-                 <name>env.SNOWFLAKE_ENV_ID</name>
-                 <value>PROD</value>
-              </property>
-           </activation>
-           <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
-           </properties>
-      </profile>
-
-       <profile>
            <id>default</id>
            <activation>
              <activeByDefault>true</activeByDefault>
            </activation>
            <properties>
-             <snowflake.urlBase>jdbc:snowflake://${env.SNOWFLAKE_ACCOUNT}.snowflakecomputing.com/?warehouse=${env.SNOWFLAKE_WAREHOUSE}&amp;role=${env.SNOWFLAKE_ROLE}&amp;private_key_file=snowflake_key.p8&amp;private_key_pwd=${env.SNF_USER_PRIVATE_KEY_PASSWORD}</snowflake.urlBase>
+             <snowflake.urlBase>jdbc:snowflake://LKGVJUZ-WS14116.snowflakecomputing.com/?warehouse=SNOWFLAKE_LEARNING_WH&amp;role=FULL_ACCESS_ROLE</snowflake.urlBase>
            </properties>
        </profile>
     </profiles>

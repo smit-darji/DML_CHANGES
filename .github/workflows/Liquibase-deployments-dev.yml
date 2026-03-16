@@ -11,90 +11,124 @@ on:
           description: "environment"
           options:
             - "Dev"
+      liquibase_tag:
+          required: true
+          type: string
+          description: "Liquibase tag to apply (e.g. liquibase-dev-deploy-123)"
 
 jobs:
 
-  Liquibase_Job_On_PR:
-    if: github.event_name == 'pull_request'
-    runs-on: windows-latest
-    outputs:
-      changed_folders: ${{ steps.list-changes.outputs.MODULES }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
+  # Liquibase_Job_On_PR:
+  #   if: github.event_name == 'pull_request'
+  #   runs-on: windows-latest
+  #   outputs:
+  #     changed_folders: ${{ steps.list-changes.outputs.MODULES }}
+  #   steps:
+  #     - name: Clone Repo
+  #       uses: actions/checkout@v4
       
-      - name: Fetch the base branch
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          git fetch origin ${{ github.event.pull_request.head.ref }}
+  #     - name: Fetch the base branch
+  #       run: |
+  #         git fetch origin ${{ github.event.pull_request.base.ref }}
+  #         git fetch origin ${{ github.event.pull_request.head.ref }}
 
-      - name: List changed folders and subfolders
-        id: list-changes
-        run: |
-          # Get the changed files between the base branch and the current PR head
-          $changed_files = git --no-pager diff --name-only --diff-filter=ACMRT origin/${{ github.event.pull_request.base.ref }}...${{ github.event.pull_request.head.sha }}
+  #     - name: List changed folders and subfolders
+  #       id: list-changes
+  #       run: |
+  #         # Get the changed files between the base branch and the current PR head
+  #         $changed_files = git --no-pager diff --name-only --diff-filter=ACMRT origin/${{ github.event.pull_request.base.ref }}...${{ github.event.pull_request.head.sha }}
           
-          # Extract directories and filter based on specific patterns
-          $filtered_dirs = $changed_files | Select-String -Pattern '/' | ForEach-Object { $_ -replace '/', '\' } | ForEach-Object { ($_ -split '\\')[0..1] -join '\' } | Sort-Object -Unique
+  #         # Extract directories and filter based on specific patterns
+  #         $filtered_dirs = $changed_files | Select-String -Pattern '/' | ForEach-Object { $_ -replace '/', '\' } | ForEach-Object { ($_ -split '\\')[0..1] -join '\' } | Sort-Object -Unique
           
-          # Apply filtering based on multiple patterns
-          $final_dirs = $filtered_dirs | Where-Object { 
-            $_ -like 'QUALITY*' -or 
-            $_ -like 'AUDIT*' -or 
-            $_ -like 'RZ*' -or 
-            $_ -like 'RCZ*' -or 
-            $_ -like 'TZ*' -or 
-            $_ -like 'CZ*' -or 
-            $_ -like 'SECURITY*' -or
-            $_ -like 'MULESOFT*' -or
-            $_ -like 'DATA_SHARE*' -or
-            $_ -like 'WORK_FLOW_TEST*'
-          } | ForEach-Object {
-            if ($_ -like 'QUALITY*') {
-              "QUALITY"  # Only include "QUALITY" for QUALITY-related directories
-            } else {
-              $_         # Include the full directory path for others
-            }
-          } | Sort-Object -Unique 
+  #         # Apply filtering based on multiple patterns
+  #         $final_dirs = $filtered_dirs | Where-Object { 
+  #           $_ -like 'QUALITY*' -or 
+  #           $_ -like 'AUDIT*' -or 
+  #           $_ -like 'RZ*' -or 
+  #           $_ -like 'RCZ*' -or 
+  #           $_ -like 'TZ*' -or 
+  #           $_ -like 'CZ*' -or 
+  #           $_ -like 'SECURITY*' -or
+  #           $_ -like 'MULESOFT*' -or
+  #           $_ -like 'DATA_SHARE*' -or
+  #           $_ -like 'WORK_FLOW_TEST*'
+  #         } | ForEach-Object {
+  #           if ($_ -like 'QUALITY*') {
+  #             "QUALITY"  # Only include "QUALITY" for QUALITY-related directories
+  #           } else {
+  #             $_         # Include the full directory path for others
+  #           }
+  #         } | Sort-Object -Unique 
 
-          # Output the final directories for reference
-          Write-Host "Filtered directories:"
+  #         # Output the final directories for reference
+  #         Write-Host "Filtered directories:"
 
-          # Convert the array of directories to a list for later use
-          echo "MODULES=$($final_dirs -join ',')" >> $env:GITHUB_OUTPUT
-          # Log the MODULES variable
-          Write-Host "Modules set: $($final_dirs -join ',')"
+  #         # Convert the array of directories to a list for later use
+  #         echo "MODULES=$($final_dirs -join ',')" >> $env:GITHUB_OUTPUT
+  #         # Log the MODULES variable
+  #         Write-Host "Modules set: $($final_dirs -join ',')"
           
-      - name: Replace <module> entries in the XML file & Run mvn liquibase update
-        run: |
-          # Specify the file to edit
-          $FILE = "pom.xml"
-          $MODULES = "${{ steps.list-changes.outputs.MODULES }}"
-          # Ensure there's a valid list of filtered modules
-          if ($MODULES -eq "" -or $MODULES.Count -eq 0) {
-            Write-Host "No modules to include. Exiting."
-            exit
-          }
-          $INCLUDEMODULES = $MODULES | ForEach-Object { $_ -replace '\\', '/' }
-          Write-Host "Modules to include: $INCLUDEMODULES"
-          # Get the dynamically filtered modules from the previous step
-          $MODULES = "${{ steps.list-changes.outputs.MODULES }}" -split ','
-          .github\workflows\workflow_scripts\pom_modules_extract.ps1
+  #     - name: Replace <module> entries in the XML file & Run mvn liquibase update
+  #       run: |
+  #         # Specify the file to edit
+  #         $FILE = "pom.xml"
+  #         $MODULES = "${{ steps.list-changes.outputs.MODULES }}"
+  #         # Ensure there's a valid list of filtered modules
+  #         if ($MODULES -eq "" -or $MODULES.Count -eq 0) {
+  #           Write-Host "No modules to include. Exiting."
+  #           exit
+  #         }
+  #         $INCLUDEMODULES = $MODULES | ForEach-Object { $_ -replace '\\', '/' }
+  #         Write-Host "Modules to include: $INCLUDEMODULES"
+  #         # Get the dynamically filtered modules from the previous step
+  #         $MODULES = "${{ steps.list-changes.outputs.MODULES }}" -split ','
+  #         .github\workflows\workflow_scripts\pom_modules_extract.ps1
           
-          $env:JAVA_HOME = $env:JAVA_HOME_11_X64
-          $env:SNOWFLAKE_ENV_ID = "DEV"
-          $env:SNOWFLAKE_EXT_STG_ENV = "dev"
-          $env:SNOWFLAKE_ACCOUNT = "frhobru-ihqla01"
-          $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          $env:SNOWFLAKE_ROLE = "ACCOUNTADMIN"
-          $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
-          $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
-          mvn -version
-          mvn install 
-          $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn liquibase:update
-          mvn liquibase:tag -Dliquibase.tag="PR-${{ github.event.pull_request.number }}"
-  
+  #         $env:JAVA_HOME = $env:JAVA_HOME_11_X64
+  #         $env:SNOWFLAKE_ENV_ID = "DEV"
+  #         $env:SNOWFLAKE_EXT_STG_ENV = "dev"
+  #         $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
+  #         $env:SNOWFLAKE_WAREHOUSE = "SNOWFLAKE_LEARNING_WH"
+  #         $env:SNOWFLAKE_ROLE = "public"
+  #         $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
+  #         $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
+  #         $env:AWS_ACCOUNT = "958500205200" 
+  #         $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
+
+  #         echo "Creating private key file from secret..."
+  #         echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_rsa_key.p8
+        
+  #         echo "Private key file created."
+  #         $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
+  #         mvn -version
+  #         mvn install 
+  #         chmod 600 snowflake_rsa_key.p8
+  #         $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
+  #         # Generate tag based on PR number or fallback to timestamp
+  #         if ($env:GITHUB_EVENT_NAME -eq "pull_request") {
+  #           $tag = "liquibase-pr-${{ github.event.pull_request.number }}"
+  #         } else {
+  #           $tag = "liquibase-auto-" + (Get-Date -Format "yyyyMMddHHmmss")
+  #         }
+
+  #         echo "Using Liquibase tag: $tag"
+  #         # mvn liquibase:update
+
+  #         $output = & { mvn liquibase:update } 2>&1
+
+  #         # Set the tag to apply
+  #         if ($env:GITHUB_EVENT_NAME -eq "pull_request") {
+  #           $tag_to_apply = "liquibase-pr-${{ github.event.pull_request.number }}"
+  #         } else {
+  #           $tag_to_apply = "${{ github.event.inputs.liquibase_tag }}"
+  #         }
+
+  #         Write-Host "Applying tag: $tag_to_apply"
+
+  #         # Apply the tag to the current HEAD without running update again
+  #         mvn liquibase:tag "-Dliquibase.tag=$tag_to_apply"
+
   Liquibase_Job_On_Branch:
     if: github.event.inputs.environment == 'DEV'
     runs-on: windows-latest
@@ -107,18 +141,26 @@ jobs:
           $env:JAVA_HOME = $env:JAVA_HOME_11_X64
           $env:SNOWFLAKE_ENV_ID = "DEV"
           $env:SNOWFLAKE_EXT_STG_ENV = "dev"
-          $env:SNOWFLAKE_ACCOUNT = "frhobru-ihqla01"
-          $env:SNOWFLAKE_WAREHOUSE = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          $env:SNOWFLAKE_ROLE = "SYSADMIN"
+          $env:SNOWFLAKE_ACCOUNT = "LKGVJUZ-WS14116"
+          $env:SNOWFLAKE_WAREHOUSE = "SNOWFLAKE_LEARNING_WH"
+          $env:SNOWFLAKE_ROLE = "public"
           $env:SNOWFLAKE_USER = "${{ secrets.DEV_SNOWFLAKE_USERNAME }}"
           $env:SNOWFLAKE_PASSWORD = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
           $env:AWS_ACCOUNT = "958500205200" 
           $env:AWS_SDLF_ACCOUNT_ID = "763084030621" 
-          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_key.p8
+          echo "${{ secrets.DEV_SNF_USER_PRIVATE_KEY }}" > snowflake_rsa_key.p8
           $env:SNF_USER_PRIVATE_KEY_PASSWORD = "${{ secrets.DEV_SNF_USER_PRIVATE_KEY_PASSWORD }}"
           mvn -version
           mvn install 
+          chmod 600 snowflake_rsa_key.p8
           $env:MAVEN_OPTS="-Dnet.snowflake.jdbc.enableBouncyCastle=true"
-          mvn liquibase:update
+          # mvn liquibase:update
+          $output = & { mvn liquibase:update } 2>&1
 
- 
+          # Set the tag to apply
+          $tag_to_apply = "${{ github.event.inputs.liquibase_tag }}"
+          Write-Host "Applying tag: $tag_to_apply"
+
+          # Apply the tag to the current HEAD without running update again
+          mvn liquibase:tag "-Dliquibase.tag=$tag_to_apply"
+          
